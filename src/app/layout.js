@@ -88,7 +88,8 @@ export default function RootLayout({ children }) {
         <meta name="description" content="Akshitha Sriyanjith - Software Engineer | Portfolio showcasing web development, mobile apps, and cloud computing projects" />
         <meta name="keywords" content="Software Engineer, Full Stack Developer, Web Development, Flutter, React, .NET, Java Spring Boot" />
         <meta name="author" content="Akshitha Sriyanjith" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
       <body className={inter.className}>
         {children}
