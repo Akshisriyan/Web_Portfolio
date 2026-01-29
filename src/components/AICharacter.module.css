@@ -1,0 +1,402 @@
+.aiCharacter {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 100;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.aiBody {
+    position: relative;
+    width: 70px;
+    height: 90px;
+}
+
+.aiHead {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow:
+        0 0 25px hsla(210, 100%, 50%, 0.5),
+        inset 0 -8px 16px hsla(190, 100%, 50%, 0.3);
+    animation: float 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.aiEye {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: hsl(0, 0%, 100%);
+    border-radius: 50%;
+    top: 16px;
+    animation: blink 4s ease-in-out infinite;
+    overflow: hidden;
+}
+
+.aiEye.left {
+    left: 12px;
+}
+
+.aiEye.right {
+    right: 12px;
+}
+
+.eyePupil {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: hsl(220, 30%, 10%);
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Eye movement based on state */
+.top .eyePupil {
+    top: 1px;
+}
+
+.bottom .eyePupil {
+    top: 5px;
+}
+
+.scrolling .eyePupil {
+    animation: lookAround 0.5s ease-in-out;
+}
+
+.aiMouth {
+    position: absolute;
+    width: 14px;
+    height: 7px;
+    border: 2px solid hsl(0, 0%, 100%);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.3s ease;
+}
+
+.scrolling .aiMouth {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    border: 2px solid hsl(0, 0%, 100%);
+}
+
+.excited .aiMouth {
+    height: 12px;
+    width: 12px;
+}
+
+.aiAntenna {
+    position: absolute;
+    width: 3px;
+    height: 22px;
+    background: linear-gradient(to top, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: sway 2s ease-in-out infinite;
+    transform-origin: bottom center;
+    border-radius: 2px;
+}
+
+.excited .aiAntenna {
+    animation: excitedSway 0.3s ease-in-out infinite;
+}
+
+.antennaBall {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: hsl(190, 100%, 50%);
+    border-radius: 50%;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px hsl(190, 100%, 50%);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.excited .antennaBall {
+    animation: excitedPulse 0.3s ease-in-out infinite;
+    background: hsl(45, 100%, 60%);
+    box-shadow: 0 0 25px hsl(45, 100%, 60%);
+}
+
+.aiParticles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.aiParticles span {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: hsl(210, 100%, 70%);
+    border-radius: 50%;
+    opacity: 0;
+}
+
+.scrolling .aiParticles span {
+    animation: particle 1s ease-in-out forwards;
+}
+
+.aiParticles span:nth-child(1) {
+    top: 25px;
+    left: -8px;
+    animation-delay: 0s;
+}
+
+.aiParticles span:nth-child(2) {
+    top: 45px;
+    left: -12px;
+    animation-delay: 0.1s;
+}
+
+.aiParticles span:nth-child(3) {
+    top: 65px;
+    left: -5px;
+    animation-delay: 0.2s;
+}
+
+.aiParticles span:nth-child(4) {
+    top: 25px;
+    right: -8px;
+    animation-delay: 0.15s;
+}
+
+.aiParticles span:nth-child(5) {
+    top: 45px;
+    right: -12px;
+    animation-delay: 0.25s;
+}
+
+.aiGlow {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, hsla(210, 100%, 50%, 0.25), hsla(190, 100%, 50%, 0.25));
+    border-radius: 50%;
+    filter: blur(25px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    animation: glowPulse 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.scrolling .aiGlow {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.9;
+}
+
+.excited .aiGlow {
+    background: linear-gradient(135deg, hsla(45, 100%, 60%, 0.35), hsla(190, 100%, 50%, 0.35));
+}
+
+.aiShadow {
+    position: absolute;
+    width: 40px;
+    height: 8px;
+    background: hsla(0, 0%, 0%, 0.25);
+    border-radius: 50%;
+    filter: blur(4px);
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: shadowPulse 3s ease-in-out infinite;
+}
+
+/* Scrolling state */
+.scrolling .aiHead {
+    animation: bounce 0.5s ease;
+}
+
+/* Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-8px);
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    45%,
+    55%,
+    100% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(0.1);
+    }
+}
+
+@keyframes sway {
+
+    0%,
+    100% {
+        transform: translateX(-50%) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateX(-50%) rotate(5deg);
+    }
+}
+
+@keyframes excitedSway {
+
+    0%,
+    100% {
+        transform: translateX(-50%) rotate(-12deg);
+    }
+
+    50% {
+        transform: translateX(-50%) rotate(12deg);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.15);
+        opacity: 0.85;
+    }
+}
+
+@keyframes excitedPulse {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.4);
+    }
+}
+
+@keyframes particle {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-25px) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-45px) scale(0.5);
+    }
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+}
+
+@keyframes shadowPulse {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.25;
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.15);
+        opacity: 0.15;
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    25% {
+        transform: translateX(-50%) translateY(-15px);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    75% {
+        transform: translateX(-50%) translateY(-8px);
+    }
+}
+
+@keyframes lookAround {
+
+    0%,
+    100% {
+        left: 3px;
+    }
+
+    25% {
+        left: 1px;
+    }
+
+    75% {
+        left: 5px;
+    }
+}
+
+/* Responsive - Scale down on mobile */
+@media (max-width: 768px) {
+    .aiCharacter {
+        right: 12px;
+        bottom: 12px;
+        transform: scale(0.75);
+        transform-origin: bottom right;
+    }
+}
+
+@media (max-width: 480px) {
+    .aiCharacter {
+        right: 8px;
+        bottom: 8px;
+        transform: scale(0.6);
+    }
+}

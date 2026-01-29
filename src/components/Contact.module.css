@@ -1,0 +1,301 @@
+.contact {
+    padding: clamp(4rem, 10vw, 8rem) 0;
+    background: hsl(220, 28%, 12%);
+    position: relative;
+    overflow: hidden;
+}
+
+.bgElements {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.gradientOrb {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: linear-gradient(135deg, hsla(210, 100%, 50%, 0.15), hsla(190, 100%, 50%, 0.15));
+    border-radius: 50%;
+    filter: blur(100px);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.sectionTag {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: hsla(220, 28%, 18%, 0.5);
+    border: 1px solid hsla(210, 100%, 50%, 0.2);
+    border-radius: 9999px;
+    color: hsl(210, 100%, 70%);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.sectionTitle {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    background: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.sectionSubtitle {
+    color: hsl(210, 15%, 65%);
+    font-size: 1rem;
+}
+
+.contactContent {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2.5rem;
+    align-items: start;
+}
+
+.contactInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.contactItem {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: hsla(220, 28%, 18%, 0.4);
+    border: 1px solid hsla(210, 100%, 50%, 0.12);
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    transition: all 0.3s ease;
+}
+
+.contactItem:hover {
+    border-color: hsla(210, 100%, 50%, 0.3);
+    transform: translateX(5px);
+}
+
+.contactIcon {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, hsla(210, 100%, 50%, 0.2), hsla(190, 100%, 50%, 0.2));
+    border-radius: 12px;
+    font-size: 1.15rem;
+    color: hsl(210, 100%, 70%);
+}
+
+.contactDetails h4 {
+    font-size: 0.95rem;
+    color: hsl(0, 0%, 100%);
+    margin-bottom: 0.4rem;
+}
+
+.contactDetails a,
+.contactDetails span {
+    display: block;
+    color: hsl(210, 15%, 65%);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contactDetails a:hover {
+    color: hsl(210, 100%, 70%);
+}
+
+.contactForm {
+    background: hsla(220, 28%, 18%, 0.4);
+    border: 1px solid hsla(210, 100%, 50%, 0.12);
+    border-radius: 20px;
+    padding: 2rem;
+    backdrop-filter: blur(20px);
+}
+
+.formGroup {
+    position: relative;
+    margin-bottom: 1.25rem;
+}
+
+.formGroup input,
+.formGroup textarea {
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    background: hsla(220, 28%, 22%, 0.5);
+    border: 1px solid hsla(210, 100%, 50%, 0.15);
+    border-radius: 10px;
+    color: hsl(0, 0%, 100%);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    border-color: hsl(210, 100%, 50%);
+    box-shadow: 0 0 20px hsla(210, 100%, 50%, 0.2);
+}
+
+.formGroup label {
+    position: absolute;
+    left: 1.1rem;
+    top: 0.9rem;
+    color: hsl(210, 15%, 55%);
+    font-size: 0.95rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: transparent;
+    padding: 0 0.25rem;
+}
+
+.formGroup input:focus+label,
+.formGroup input:not(:placeholder-shown)+label,
+.formGroup textarea:focus+label,
+.formGroup textarea:not(:placeholder-shown)+label {
+    top: -0.5rem;
+    left: 0.9rem;
+    font-size: 0.7rem;
+    color: hsl(210, 100%, 70%);
+    background: hsl(220, 28%, 16%);
+}
+
+.formGroup textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.submitBtn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 1rem 1.75rem;
+    background: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 30px hsla(210, 100%, 50%, 0.3);
+}
+
+.submitBtn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 0 50px hsla(210, 100%, 50%, 0.5);
+}
+
+.submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Mobile Responsive */
+@media (max-width: 900px) {
+    .contactContent {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contactInfo {
+        order: 1;
+    }
+
+    .contactForm {
+        order: 0;
+        padding: 1.75rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact {
+        padding: 3rem 0;
+    }
+
+    .sectionHeader {
+        margin-bottom: 2.5rem;
+    }
+
+    .contactInfo {
+        gap: 1rem;
+    }
+
+    .contactItem {
+        padding: 1rem;
+    }
+
+    .contactIcon {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+    }
+
+    .contactDetails h4 {
+        font-size: 0.9rem;
+    }
+
+    .contactDetails a,
+    .contactDetails span {
+        font-size: 0.8rem;
+    }
+
+    .contactForm {
+        padding: 1.5rem;
+    }
+
+    .formGroup input,
+    .formGroup textarea {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .formGroup label {
+        font-size: 0.9rem;
+        top: 0.8rem;
+        left: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contactItem {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.25rem;
+    }
+
+    .contactIcon {
+        margin: 0 auto;
+    }
+
+    .formGroup {
+        margin-bottom: 1rem;
+    }
+
+    .submitBtn {
+        padding: 0.9rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}

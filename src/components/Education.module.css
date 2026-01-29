@@ -1,0 +1,221 @@
+.education {
+    padding: clamp(4rem, 10vw, 8rem) 0;
+    background: hsl(220, 30%, 8%);
+    position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.sectionTag {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: hsla(220, 28%, 18%, 0.5);
+    border: 1px solid hsla(210, 100%, 50%, 0.2);
+    border-radius: 9999px;
+    color: hsl(210, 100%, 70%);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.sectionTitle {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    background: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.educationGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.educationCard {
+    background: hsla(220, 28%, 18%, 0.3);
+    border: 1px solid hsla(210, 100%, 50%, 0.1);
+    border-radius: 20px;
+    padding: 1.75rem;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.educationCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.educationCard:hover {
+    border-color: hsla(210, 100%, 50%, 0.3);
+    box-shadow: 0 20px 50px hsla(0, 0%, 0%, 0.4);
+    transform: translateY(-5px);
+}
+
+.educationCard:hover::before {
+    opacity: 1;
+}
+
+.eduIcon {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, hsla(210, 100%, 50%, 0.2), hsla(190, 100%, 50%, 0.2));
+    border-radius: 14px;
+    font-size: 1.4rem;
+    color: hsl(210, 100%, 70%);
+    margin-bottom: 1.25rem;
+}
+
+.eduContent {}
+
+.eduYear {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    background: hsla(190, 100%, 50%, 0.1);
+    border: 1px solid hsla(190, 100%, 50%, 0.3);
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    color: hsl(190, 100%, 60%);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.eduDegree {
+    font-size: 1.15rem;
+    color: hsl(0, 0%, 100%);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.eduSchool {
+    font-size: 0.95rem;
+    color: hsl(210, 100%, 70%);
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.eduGpa {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.gpaBadge {
+    padding: 0.35rem 0.9rem;
+    background: linear-gradient(135deg, hsla(210, 100%, 50%, 0.2), hsla(190, 100%, 50%, 0.2));
+    border: 1px solid hsla(210, 100%, 50%, 0.35);
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    color: hsl(210, 100%, 75%);
+    font-weight: 600;
+}
+
+.gpaClass {
+    padding: 0.35rem 0.9rem;
+    background: hsla(190, 100%, 50%, 0.1);
+    border: 1px solid hsla(190, 100%, 50%, 0.3);
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    color: hsl(190, 100%, 70%);
+    font-weight: 500;
+}
+
+.gpaClass.success {
+    background: hsla(140, 70%, 50%, 0.15);
+    border-color: hsla(140, 70%, 50%, 0.4);
+    color: hsl(140, 70%, 60%);
+}
+
+.eduCourses {
+    font-size: 0.85rem;
+    color: hsl(210, 15%, 60%);
+    line-height: 1.7;
+}
+
+.eduCourses strong {
+    color: hsl(210, 15%, 75%);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .education {
+        padding: 3rem 0;
+    }
+
+    .sectionHeader {
+        margin-bottom: 2.5rem;
+    }
+
+    .educationGrid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .educationCard {
+        padding: 1.5rem;
+    }
+
+    .eduIcon {
+        width: 48px;
+        height: 48px;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .eduDegree {
+        font-size: 1.05rem;
+    }
+
+    .eduSchool {
+        font-size: 0.9rem;
+    }
+
+    .eduCourses {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .educationCard {
+        padding: 1.25rem;
+    }
+
+    .eduIcon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+
+    .eduGpa {
+        gap: 0.5rem;
+    }
+
+    .gpaBadge,
+    .gpaClass {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.75rem;
+    }
+}

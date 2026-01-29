@@ -1,0 +1,223 @@
+.projects {
+    padding: clamp(4rem, 10vw, 8rem) 0;
+    background: hsl(220, 30%, 8%);
+    position: relative;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.sectionTag {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: hsla(220, 28%, 18%, 0.5);
+    border: 1px solid hsla(210, 100%, 50%, 0.2);
+    border-radius: 9999px;
+    color: hsl(210, 100%, 70%);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.sectionTitle {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    background: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.projectsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.projectCard {
+    background: hsla(220, 28%, 18%, 0.3);
+    border: 1px solid hsla(210, 100%, 50%, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.projectCard:hover {
+    border-color: hsla(210, 100%, 50%, 0.4);
+    box-shadow:
+        0 20px 60px hsla(0, 0%, 0%, 0.4),
+        0 0 40px hsla(210, 100%, 50%, 0.15);
+}
+
+.projectCard.featured {
+    grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+    .projectCard.featured {
+        grid-column: span 1;
+    }
+}
+
+.projectImage {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+}
+
+.projectCard.featured .projectImage {
+    height: 220px;
+}
+
+.projectPlaceholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, hsla(210, 100%, 50%, 0.15), hsla(190, 100%, 50%, 0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    color: hsl(210, 100%, 65%);
+    transition: all 0.4s ease;
+}
+
+.projectCard:hover .projectPlaceholder {
+    transform: scale(1.1);
+    color: hsl(190, 100%, 65%);
+}
+
+.projectOverlay {
+    position: absolute;
+    inset: 0;
+    background: hsla(220, 30%, 8%, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.projectCard:hover .projectOverlay {
+    opacity: 1;
+}
+
+.projectLink {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
+    border-radius: 50%;
+    color: white;
+    font-size: 1.3rem;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.projectCard:hover .projectLink {
+    transform: translateY(0);
+}
+
+.projectLink:hover {
+    box-shadow: 0 0 30px hsla(210, 100%, 50%, 0.6);
+    transform: scale(1.1);
+}
+
+.projectInfo {
+    padding: 1.5rem;
+}
+
+.projectTitle {
+    font-size: 1.15rem;
+    color: hsl(0, 0%, 100%);
+    margin-bottom: 0.65rem;
+}
+
+.projectDescription {
+    color: hsl(210, 15%, 65%);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.projectTech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.projectTech span {
+    padding: 0.3rem 0.75rem;
+    background: hsla(210, 100%, 50%, 0.1);
+    border: 1px solid hsla(210, 100%, 50%, 0.25);
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    color: hsl(210, 100%, 75%);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.projectCard:hover .projectTech span {
+    background: hsla(210, 100%, 50%, 0.2);
+    border-color: hsla(210, 100%, 50%, 0.4);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .projects {
+        padding: 3rem 0;
+    }
+
+    .sectionHeader {
+        margin-bottom: 2.5rem;
+    }
+
+    .projectsGrid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .projectImage {
+        height: 160px;
+    }
+
+    .projectPlaceholder {
+        font-size: 2.5rem;
+    }
+
+    .projectInfo {
+        padding: 1.25rem;
+    }
+
+    .projectTitle {
+        font-size: 1.05rem;
+    }
+
+    .projectDescription {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .projectImage {
+        height: 140px;
+    }
+
+    .projectInfo {
+        padding: 1rem;
+    }
+
+    .projectTech span {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.6rem;
+    }
+}
