@@ -8,6 +8,15 @@ import styles from './Education.module.css';
 
 const education = [
     {
+        degree: 'Master of Data Analytics, Data Science',
+        school: 'University of Kelaniya - Sri Lanka',
+        year: '2026 - Present',
+        gpa: null,
+        gpaClass: 'Currently Reading',
+        courses: null,
+        icon: faGraduationCap,
+    },
+    {
         degree: 'Bachelor of Science in Computer Science',
         school: 'NSBM Green University - Sri Lanka',
         year: '2021 - 2025',

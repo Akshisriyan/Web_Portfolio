@@ -61,7 +61,7 @@ export default function About() {
                         <div className={styles.imageWrapper}>
                             <div className={styles.imageContainer}>
                                 <Image
-                                    src="/profile.jpg"
+                                    src="/profile1.jpeg"
                                     alt="Akshitha Sriyanjith"
                                     fill
                                     sizes="(max-width: 768px) 240px, 320px"
