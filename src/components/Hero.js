@@ -1,140 +1,109 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faLocationDot, faBriefcase, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { profile, stats } from '@/data/portfolio';
 import styles from './Hero.module.css';
 
 export default function Hero() {
-    const statsRef = useRef([]);
-
-    useEffect(() => {
-        // Animate stats counter
-        const animateCounter = (element, target) => {
-            let current = 0;
-            const increment = target / 50;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target;
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current);
-                }
-            }, 30);
-        };
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const target = parseInt(entry.target.dataset.count);
-                        animateCounter(entry.target, target);
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
-            { threshold: 0.5 }
-        );
-
-        statsRef.current.forEach((stat) => {
-            if (stat) observer.observe(stat);
-        });
-
-        return () => observer.disconnect();
-    }, []);
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3,
-            },
-        },
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: 'easeOut' },
-        },
-    };
-
     return (
         <section className={styles.hero} id="hero">
-            <div className={styles.heroBg}>
-                <div className={`${styles.gradientOrb} ${styles.orb1}`}></div>
-                <div className={`${styles.gradientOrb} ${styles.orb2}`}></div>
-                <div className={`${styles.gradientOrb} ${styles.orb3}`}></div>
-                <div className={styles.gridPattern}></div>
+            <div className={styles.bg} aria-hidden="true">
+                <div className={styles.glowA} />
+                <div className={styles.glowB} />
+                <div className={styles.grid} />
             </div>
 
-            <motion.div
-                className={styles.heroContent}
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <motion.div className={styles.heroBadge} variants={itemVariants}>
-                    <span className={styles.badgeDot}></span>
-                    Available for opportunities
-                </motion.div>
+            <div className={`container ${styles.inner}`}>
+                <div className={styles.copy}>
+                    <p className={`${styles.rise} ${styles.badge}`} style={{ '--d': '0.10s' }}>
+                        <span className={styles.pulse} />
+                        Available for new opportunities
+                    </p>
 
-                <motion.h1 className={styles.heroTitle} variants={itemVariants}>
-                    <span className={styles.titleLine}>Hi, I&apos;m</span>
-                    <span className={styles.titleName}>Akshitha Sriyanjith</span>
-                    <span className={styles.titleRole}>Software Engineer</span>
-                </motion.h1>
+                    <h1 className={`${styles.rise} ${styles.title}`} style={{ '--d': '0.18s' }}>
+                        Hi, I&apos;m {profile.firstName}.
+                        <br />
+                        I build <span className={styles.accent}>reliable software</span> for web, mobile &amp; data.
+                    </h1>
 
-                <motion.p className={styles.heroDescription} variants={itemVariants}>
-                    Building elegant solutions with <span className={styles.highlight}>.NET</span>,
-                    <span className={styles.highlight}> Java Spring Boot</span>, and
-                    <span className={styles.highlight}> Flutter</span>. Passionate about creating
-                    impactful software that makes a difference.
-                </motion.p>
+                    <p className={`${styles.rise} ${styles.lead}`} style={{ '--d': '0.26s' }}>
+                        {profile.role} working with <strong>.NET</strong>, <strong>Java Spring Boot</strong>,{' '}
+                        <strong>Next.js</strong> and <strong>Flutter</strong>. I care about clean code and software
+                        that makes a real difference for the people using it.
+                    </p>
 
-                <motion.div className={styles.heroCta} variants={itemVariants}>
-                    <a href="#projects" className={styles.btnPrimary}>
-                        <span>View My Work</span>
-                        <FontAwesomeIcon icon={faArrowRight} />
-                    </a>
-                    <a href="#contact" className={styles.btnSecondary}>
-                        <span>Get in Touch</span>
-                    </a>
-                </motion.div>
-
-                <motion.div className={styles.heroStats} variants={itemVariants}>
-                    <div className={styles.statItem}>
-                        <span
-                            className={styles.statNumber}
-                            data-count="6"
-                            ref={el => statsRef.current[0] = el}
-                        >0</span>+
-                        <span className={styles.statLabel}>Projects</span>
+                    <div className={`${styles.rise} ${styles.ctas}`} style={{ '--d': '0.34s' }}>
+                        <a href="#projects" className="btn btn-primary">
+                            View my work
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </a>
+                        <a href="#contact" className="btn btn-ghost">
+                            Get in touch
+                        </a>
                     </div>
-                    <div className={styles.statItem}>
-                        <span
-                            className={styles.statNumber}
-                            data-count="2"
-                            ref={el => statsRef.current[1] = el}
-                        >0</span>+
-                        <span className={styles.statLabel}>Years Experience</span>
+
+                    <div className={`${styles.rise} ${styles.socials}`} style={{ '--d': '0.42s' }}>
+                        <div className="social-row">
+                            <a href={profile.github} className="social-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                                <FontAwesomeIcon icon={faGithub} />
+                            </a>
+                            <a href={profile.linkedin} className="social-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                <FontAwesomeIcon icon={faLinkedinIn} />
+                            </a>
+                            <a href={`mailto:${profile.email}`} className="social-btn" aria-label="Email">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                            </a>
+                        </div>
+                        <span className={styles.location}>
+                            <FontAwesomeIcon icon={faLocationDot} />
+                            {profile.location}
+                        </span>
                     </div>
-                    <div className={styles.statItem}>
-                        <span
-                            className={styles.statNumber}
-                            data-count="15"
-                            ref={el => statsRef.current[2] = el}
-                        >0</span>+
-                        <span className={styles.statLabel}>Technologies</span>
+                </div>
+
+                <div className={`${styles.rise} ${styles.visual}`} style={{ '--d': '0.2s' }}>
+                    <div className={styles.photoFrame}>
+                        <Image
+                            src={profile.photo}
+                            alt={profile.name}
+                            fill
+                            priority
+                            sizes="(max-width: 900px) 320px, 420px"
+                            className={styles.photo}
+                        />
                     </div>
-                </motion.div>
-            </motion.div>
+
+                    <div className={`${styles.rise} ${styles.float} ${styles.floatTop}`} style={{ '--d': '0.6s' }}>
+                        <span className={styles.floatIcon}>
+                            <FontAwesomeIcon icon={faBriefcase} />
+                        </span>
+                        <span>
+                            <strong>Prime Engineering</strong>
+                            <small>Associate SE</small>
+                        </span>
+                    </div>
+
+                    <div className={`${styles.rise} ${styles.float} ${styles.floatBottom}`} style={{ '--d': '0.75s' }}>
+                        <span className={styles.floatEmoji} aria-hidden="true">🎓</span>
+                        <span>
+                            <strong>MSc Data Analytics</strong>
+                            <small>University of Kelaniya</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="container">
+                <dl className={`${styles.rise} ${styles.stats}`} style={{ '--d': '0.55s' }}>
+                    {stats.map((s) => (
+                        <div key={s.label} className={styles.stat}>
+                            <dt>{s.label}</dt>
+                            <dd>{s.value}</dd>
+                        </div>
+                    ))}
+                </dl>
+            </div>
         </section>
     );
 }

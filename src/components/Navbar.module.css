@@ -1,261 +1,202 @@
-.navbar {
+.header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    padding: 1rem 0;
-    transition: all 0.3s ease;
+    padding: 12px var(--gutter);
+    transition: padding 0.3s var(--ease);
 }
 
-.navbar.scrolled {
-    background: hsla(220, 30%, 10%, 0.95);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid hsla(210, 100%, 50%, 0.1);
-    padding: 0.75rem 0;
-}
-
-.container {
-    max-width: 1200px;
+.nav {
+    position: relative;
+    z-index: 2;
+    max-width: var(--container);
+    height: 56px;
     margin: 0 auto;
-    padding: 0 1.5rem;
+    padding: 0 8px 0 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
+    border-radius: var(--radius-full);
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.scrolled .nav {
+    background: var(--nav-bg);
+    border-color: var(--border);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: saturate(160%) blur(16px);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
+}
+
+/* Logo */
 .logo {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    font-family: var(--font-space), sans-serif;
-    font-size: 1.5rem;
+    gap: 0.6rem;
+    font-family: var(--font-display);
     font-weight: 700;
-    color: hsl(0, 0%, 100%);
-    text-decoration: none;
-    z-index: 1001;
 }
 
-.logoText {
-    background: linear-gradient(135deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.logoMark {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
 }
 
-.logoDot {
-    width: 8px;
-    height: 8px;
-    background: hsl(190, 100%, 50%);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
+.logoName {
+    font-size: 1.05rem;
+    color: var(--text);
 }
 
-@keyframes pulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    50% {
-        transform: scale(1.2);
-        opacity: 0.7;
-    }
+/* Desktop links */
+.links {
+    display: flex;
+    gap: 0.25rem;
 }
 
-/* Desktop Nav Menu */
-.navMenu {
+.link {
+    display: block;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-full);
+    color: var(--text-2);
+    font-size: 0.925rem;
+    font-weight: 500;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.link:hover {
+    color: var(--text);
+    background: var(--surface-2);
+}
+
+.link.active {
+    color: var(--accent-text);
+    background: var(--accent-soft);
+}
+
+/* Right side */
+.actions {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    gap: 0.4rem;
 }
 
-.navLink {
-    position: relative;
-    color: hsl(210, 20%, 75%);
-    font-size: 0.9rem;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    padding: 0.5rem 0;
+.iconBtn {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: var(--text-2);
+    font-size: 1.05rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.navLink:hover {
-    color: hsl(0, 0%, 100%);
+.iconBtn:hover {
+    background: var(--surface-2);
+    color: var(--text);
 }
 
-.navLink::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, hsl(210, 100%, 50%), hsl(190, 100%, 50%));
-    transition: width 0.3s ease;
-}
-
-.navLink:hover::after,
-.navLink.active::after {
-    width: 100%;
-}
-
-.navLink.active {
-    color: hsl(210, 100%, 70%);
-}
-
-/* Mobile Toggle Button */
-.mobileToggle {
+.sun,
+:global([data-theme='dark']) .moon {
     display: none;
-    background: hsla(220, 28%, 18%, 0.8);
-    border: 1px solid hsla(210, 100%, 50%, 0.3);
-    color: hsl(0, 0%, 100%);
-    font-size: 1.4rem;
-    cursor: pointer;
-    padding: 0.6rem 0.8rem;
-    border-radius: 10px;
-    z-index: 1002;
-    transition: all 0.3s ease;
 }
 
-.mobileToggle:hover {
-    background: hsla(210, 100%, 50%, 0.3);
-    border-color: hsl(210, 100%, 50%);
+:global([data-theme='dark']) .sun {
+    display: block;
 }
 
-.mobileToggle:active {
-    transform: scale(0.95);
+.cta {
+    min-height: 42px;
+    padding: 0.6rem 1.15rem;
+    font-size: 0.9rem;
+    box-shadow: none;
 }
 
-/* Mobile Overlay - Full screen dark background */
-.mobileOverlay {
+.menuBtn {
+    display: none;
+}
+
+/* Mobile */
+.backdrop {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: hsla(0, 0%, 0%, 0.7);
-    z-index: 1050;
+    inset: 0;
+    z-index: 1;
+    background: rgb(10 12 22 / 0.35);
+    backdrop-filter: blur(2px);
 }
 
-/* Mobile Menu - Full screen slide from right */
 .mobileMenu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 300px;
-    max-width: 85vw;
-    background: hsl(220, 30%, 10%);
-    padding: 5rem 1.5rem 2rem;
-    border-left: 1px solid hsla(210, 100%, 50%, 0.15);
-    z-index: 1051;
-    overflow-y: auto;
-}
-
-.mobileCloseBtn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: hsla(220, 28%, 18%, 0.8);
-    border: 1px solid hsla(210, 100%, 50%, 0.3);
-    color: hsl(0, 0%, 100%);
-    font-size: 1.3rem;
-    cursor: pointer;
-    padding: 0.5rem 0.7rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.mobileCloseBtn:hover {
-    background: hsla(0, 70%, 50%, 0.3);
-    border-color: hsl(0, 70%, 50%);
+    position: relative;
+    z-index: 2;
+    max-width: var(--container);
+    margin: 10px auto 0;
+    padding: 0.75rem;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-md);
+    transform-origin: top center;
 }
 
 .mobileMenu ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin: 0;
-    padding: 0;
+    display: grid;
+    margin-bottom: 0.75rem;
 }
 
-.mobileMenu li {
+.mobileMenu li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 50px;
+    padding: 0 1rem;
+    border-radius: 12px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.mobileMenu li a svg {
+    color: var(--text-3);
+    font-size: 0.85rem;
+}
+
+.mobileMenu li a:hover,
+.mobileMenu li a.active {
+    background: var(--accent-soft);
+    color: var(--accent-text);
+}
+
+.mobileMenu li a.active svg {
+    color: var(--accent-text);
+}
+
+.mobileMenu > a {
     width: 100%;
 }
 
-.mobileMenu a {
-    display: block;
-    color: hsl(210, 20%, 75%);
-    font-size: 1.1rem;
-    font-weight: 500;
-    text-decoration: none;
-    padding: 1rem 1.25rem;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    border: 1px solid transparent;
-}
-
-.mobileMenu a:hover,
-.mobileMenu a.active {
-    color: hsl(0, 0%, 100%);
-    background: hsla(210, 100%, 50%, 0.15);
-    border-color: hsla(210, 100%, 50%, 0.3);
-}
-
-.mobileMenu a.active {
-    background: hsla(210, 100%, 50%, 0.2);
-    border-color: hsla(210, 100%, 50%, 0.4);
-}
-
-/* Mobile Responsive - Show toggle, hide desktop menu */
-@media (max-width: 900px) {
-    .navMenu {
-        display: none !important;
+@media (max-width: 960px) {
+    .links,
+    .cta {
+        display: none;
     }
 
-    .mobileToggle {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
+    .menuBtn {
+        display: grid;
     }
 }
 
-@media (max-width: 480px) {
-    .container {
-        padding: 0 1rem;
-    }
-
-    .logo {
-        font-size: 1.3rem;
-    }
-
-    .mobileMenu {
-        width: 100%;
-        max-width: 100%;
-        padding: 4.5rem 1.25rem 2rem;
-    }
-
-    .mobileToggle {
-        padding: 0.5rem 0.7rem;
-        font-size: 1.2rem;
-    }
-
-    .mobileCloseBtn {
-        top: 0.75rem;
-        right: 0.75rem;
-        padding: 0.4rem 0.6rem;
-        font-size: 1.1rem;
-    }
-
-    .mobileMenu a {
-        font-size: 1rem;
-        padding: 0.9rem 1rem;
+@media (max-width: 380px) {
+    .logoName {
+        display: none;
     }
 }

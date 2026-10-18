@@ -1,184 +1,132 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faEnvelope,
-    faPhone,
-    faMapMarkerAlt,
-    faPaperPlane
-} from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faPhone, faLocationDot, faPaperPlane, faCopy, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faGithub, faLinkedinIn } from '@fortawesome/free-brands-svg-icons';
+import { profile } from '@/data/portfolio';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
 import styles from './Contact.module.css';
 
-export default function Contact() {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
+const emptyForm = { name: '', email: '', subject: '', message: '' };
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+export default function Contact() {
+    const [form, setForm] = useState(emptyForm);
+    const [copied, setCopied] = useState(false);
+
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+    // No backend: hand the message to the visitor's own email app, pre-filled
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const body = `${form.message}\n\n— ${form.name} (${form.email})`;
+        window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(form.subject)}&body=${encodeURIComponent(body)}`;
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-
-        // Simulate form submission
-        await new Promise(resolve => setTimeout(resolve, 1500));
-
-        setIsSubmitting(false);
-        setSubmitted(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-
-        setTimeout(() => setSubmitted(false), 5000);
+    const copyEmail = async () => {
+        try {
+            await navigator.clipboard.writeText(profile.email);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch { }
     };
 
     return (
-        <section className={styles.contact} id="contact" ref={ref}>
-            <div className={styles.bgElements}>
-                <div className={styles.gradientOrb}></div>
-            </div>
+        <section className="section section-alt" id="contact">
+            <div className="container">
+                <SectionHeading
+                    align="center"
+                    eyebrow="Get in touch"
+                    title="Let's work together"
+                    subtitle="Have a role, project or idea in mind? I'd love to hear about it."
+                />
 
-            <div className={styles.container}>
-                <motion.div
-                    className={styles.sectionHeader}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className={styles.sectionTag}>Get In Touch</span>
-                    <h2 className={styles.sectionTitle}>Let&apos;s Work Together</h2>
-                    <p className={styles.sectionSubtitle}>
-                        Have a project in mind? Let&apos;s create something amazing together!
-                    </p>
-                </motion.div>
+                <Reveal className={styles.panel}>
+                    <aside className={styles.info}>
+                        <h3>Contact details</h3>
+                        <p>I usually reply within a day or two.</p>
 
-                <div className={styles.contactContent}>
-                    <motion.div
-                        className={styles.contactInfo}
-                        initial={{ opacity: 0, x: -30 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <div className={styles.contactItem}>
-                            <div className={styles.contactIcon}>
-                                <FontAwesomeIcon icon={faEnvelope} />
-                            </div>
-                            <div className={styles.contactDetails}>
-                                <h4>Email</h4>
-                                <a href="mailto:akshithasriyanjith2000@gmail.com">
-                                    akshithasriyanjith2000@gmail.com
-                                </a>
-                            </div>
+                        <ul className={styles.list}>
+                            <li>
+                                <span className={styles.infoIcon}>
+                                    <FontAwesomeIcon icon={faEnvelope} />
+                                </span>
+                                <div className={styles.infoText}>
+                                    <small>Email</small>
+                                    <a href={`mailto:${profile.email}`}>{profile.email}</a>
+                                </div>
+                                <button
+                                    type="button"
+                                    className={styles.copy}
+                                    onClick={copyEmail}
+                                    aria-label="Copy email address"
+                                >
+                                    <FontAwesomeIcon icon={copied ? faCheck : faCopy} />
+                                </button>
+                            </li>
+                            <li>
+                                <span className={styles.infoIcon}>
+                                    <FontAwesomeIcon icon={faPhone} />
+                                </span>
+                                <div className={styles.infoText}>
+                                    <small>Phone</small>
+                                    {profile.phones.map((p) => (
+                                        <a key={p.href} href={p.href}>{p.label}</a>
+                                    ))}
+                                </div>
+                            </li>
+                            <li>
+                                <span className={styles.infoIcon}>
+                                    <FontAwesomeIcon icon={faLocationDot} />
+                                </span>
+                                <div className={styles.infoText}>
+                                    <small>Location</small>
+                                    <span>{profile.location}</span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div className={styles.socials}>
+                            <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                                <FontAwesomeIcon icon={faGithub} />
+                            </a>
+                            <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                <FontAwesomeIcon icon={faLinkedinIn} />
+                            </a>
                         </div>
+                        <span className={styles.live} aria-live="polite">{copied ? 'Email address copied' : ''}</span>
+                    </aside>
 
-                        <div className={styles.contactItem}>
-                            <div className={styles.contactIcon}>
-                                <FontAwesomeIcon icon={faPhone} />
-                            </div>
-                            <div className={styles.contactDetails}>
-                                <h4>Phone</h4>
-                                <a href="tel:+94713740291">+94 71 374 0291</a>
-                                <a href="tel:+94781262610">+94 78 126 2610</a>
-                            </div>
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        <div className={styles.row}>
+                            <label className={styles.field}>
+                                <span>Name</span>
+                                <input name="name" value={form.name} onChange={handleChange} required autoComplete="name" placeholder="Your name" />
+                            </label>
+                            <label className={styles.field}>
+                                <span>Email</span>
+                                <input type="email" name="email" value={form.email} onChange={handleChange} required autoComplete="email" placeholder="you@example.com" />
+                            </label>
                         </div>
+                        <label className={styles.field}>
+                            <span>Subject</span>
+                            <input name="subject" value={form.subject} onChange={handleChange} required placeholder="What's this about?" />
+                        </label>
+                        <label className={styles.field}>
+                            <span>Message</span>
+                            <textarea name="message" rows={5} value={form.message} onChange={handleChange} required placeholder="Tell me a little about your project or role…" />
+                        </label>
 
-                        <div className={styles.contactItem}>
-                            <div className={styles.contactIcon}>
-                                <FontAwesomeIcon icon={faMapMarkerAlt} />
-                            </div>
-                            <div className={styles.contactDetails}>
-                                <h4>Location</h4>
-                                <span>Colombo, Sri Lanka</span>
-                            </div>
+                        <div className={styles.submitRow}>
+                            <button type="submit" className="btn btn-primary">
+                                Send message
+                                <FontAwesomeIcon icon={faPaperPlane} />
+                            </button>
+                            <small>Opens your email app with the message ready to send.</small>
                         </div>
-                    </motion.div>
-
-                    <motion.form
-                        className={styles.contactForm}
-                        onSubmit={handleSubmit}
-                        initial={{ opacity: 0, x: 30 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                    >
-                        <div className={styles.formGroup}>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                required
-                                placeholder=" "
-                            />
-                            <label htmlFor="name">Your Name</label>
-                        </div>
-
-                        <div className={styles.formGroup}>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
-                                placeholder=" "
-                            />
-                            <label htmlFor="email">Your Email</label>
-                        </div>
-
-                        <div className={styles.formGroup}>
-                            <input
-                                type="text"
-                                id="subject"
-                                name="subject"
-                                value={formData.subject}
-                                onChange={handleChange}
-                                required
-                                placeholder=" "
-                            />
-                            <label htmlFor="subject">Subject</label>
-                        </div>
-
-                        <div className={styles.formGroup}>
-                            <textarea
-                                id="message"
-                                name="message"
-                                rows="5"
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
-                                placeholder=" "
-                            ></textarea>
-                            <label htmlFor="message">Your Message</label>
-                        </div>
-
-                        <button
-                            type="submit"
-                            className={styles.submitBtn}
-                            disabled={isSubmitting}
-                        >
-                            {isSubmitting ? (
-                                <span>Sending...</span>
-                            ) : submitted ? (
-                                <span>Message Sent! ✓</span>
-                            ) : (
-                                <>
-                                    <span>Send Message</span>
-                                    <FontAwesomeIcon icon={faPaperPlane} />
-                                </>
-                            )}
-                        </button>
-                    </motion.form>
-                </div>
+                    </form>
+                </Reveal>
             </div>
         </section>
     );

@@ -1,11 +1,3 @@
-'use client';
-
-import { config } from '@fortawesome/fontawesome-svg-core';
-import '@fortawesome/fontawesome-svg-core/styles.css';
-
-// Prevent Font Awesome from adding its CSS since we did it manually above
-config.autoAddCss = false;
-
 import {
   Navbar,
   Hero,
@@ -17,15 +9,15 @@ import {
   Awards,
   Contact,
   Footer,
-  AICharacter,
+  BackToTop,
+  MotionProvider,
 } from '@/components';
 
 export default function Home() {
   return (
-    <>
+    <MotionProvider>
       <Navbar />
-      <AICharacter />
-      <main>
+      <main id="main">
         <Hero />
         <About />
         <Experience />
@@ -36,6 +28,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </>
+      <BackToTop />
+    </MotionProvider>
   );
 }

@@ -1,104 +1,40 @@
-'use client';
-
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faSchool, faAward } from '@fortawesome/free-solid-svg-icons';
+import { education } from '@/data/portfolio';
+import SectionHeading from './SectionHeading';
+import Reveal from './Reveal';
 import styles from './Education.module.css';
 
-const education = [
-    {
-        degree: 'Master of Data Analytics, Data Science',
-        school: 'University of Kelaniya - Sri Lanka',
-        year: '2026 - Present',
-        gpa: null,
-        gpaClass: 'Currently Reading',
-        courses: null,
-        icon: faGraduationCap,
-    },
-    {
-        degree: 'Bachelor of Science in Computer Science',
-        school: 'NSBM Green University - Sri Lanka',
-        year: '2021 - 2025',
-        gpa: '3.62',
-        gpaClass: 'Second Class Upper Division',
-        courses: 'Computer Architecture, Cryptography, Advanced Database Management, AI, Computer Graphics, Mobile Application Development, Computer Networks, System Analysis and Design',
-        icon: faGraduationCap,
-    },
-    {
-        degree: 'Diploma in Software Engineering',
-        school: 'University of Sabaragamuwa - Sri Lanka',
-        year: '2019 - 2021',
-        gpa: '3.16',
-        gpaClass: null,
-        courses: 'Software Engineering, Database Management, System Analysis and Design, Programming Languages (C and C#)',
-        icon: faAward,
-    },
-    {
-        degree: 'G.C.E A/L Physical Science',
-        school: 'R/ Balangoda Ananda Maithreya Central College',
-        year: '2019',
-        gpa: null,
-        gpaClass: 'Passed',
-        courses: null,
-        icon: faSchool,
-    },
-];
-
 export default function Education() {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
-
     return (
-        <section className={styles.education} id="education" ref={ref}>
-            <div className={styles.container}>
-                <motion.div
-                    className={styles.sectionHeader}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className={styles.sectionTag}>Background</span>
-                    <h2 className={styles.sectionTitle}>Education</h2>
-                </motion.div>
+        <section className="section section-alt" id="education">
+            <div className="container">
+                <SectionHeading eyebrow="Background" title="Education" />
 
-                <div className={styles.educationGrid}>
-                    {education.map((edu, index) => (
-                        <motion.div
-                            key={index}
-                            className={styles.educationCard}
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                            transition={{ duration: 0.5, delay: index * 0.15 }}
-                            whileHover={{ y: -8 }}
-                        >
-                            <div className={styles.eduIcon}>
-                                <FontAwesomeIcon icon={edu.icon} />
+                <div className={styles.grid}>
+                    {education.map((edu, i) => (
+                        <Reveal key={edu.degree} delay={i * 0.08} className={`card card-hover ${styles.card}`}>
+                            <div className={styles.top}>
+                                <span className="icon-box">
+                                    <FontAwesomeIcon icon={edu.icon} />
+                                </span>
+                                <span className={styles.period}>{edu.period}</span>
                             </div>
 
-                            <div className={styles.eduContent}>
-                                <span className={styles.eduYear}>{edu.year}</span>
-                                <h3 className={styles.eduDegree}>{edu.degree}</h3>
-                                <h4 className={styles.eduSchool}>{edu.school}</h4>
+                            <h3 className={styles.degree}>{edu.degree}</h3>
+                            <p className={styles.school}>{edu.school}</p>
 
-                                <div className={styles.eduGpa}>
-                                    {edu.gpa && (
-                                        <span className={styles.gpaBadge}>GPA: {edu.gpa}</span>
-                                    )}
-                                    {edu.gpaClass && (
-                                        <span className={`${styles.gpaClass} ${!edu.gpa ? styles.success : ''}`}>
-                                            {edu.gpaClass}
-                                        </span>
-                                    )}
-                                </div>
-
-                                {edu.courses && (
-                                    <p className={styles.eduCourses}>
-                                        <strong>Relevant Coursework:</strong> {edu.courses}
-                                    </p>
-                                )}
+                            <div className={styles.badges}>
+                                {edu.badges.map((b) => (
+                                    <span key={b} className={styles.badge}>{b}</span>
+                                ))}
                             </div>
-                        </motion.div>
+
+                            {edu.courses && (
+                                <p className={styles.courses}>
+                                    <strong>Coursework:</strong> {edu.courses}
+                                </p>
+                            )}
+                        </Reveal>
                     ))}
                 </div>
             </div>

@@ -8,4 +8,5 @@ export { default as Education } from './Education';
 export { default as Awards } from './Awards';
 export { default as Contact } from './Contact';
 export { default as Footer } from './Footer';
-export { default as AICharacter } from './AICharacter';
+export { default as BackToTop } from './BackToTop';
+export { default as MotionProvider } from './MotionProvider';

@@ -3,172 +3,149 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faXmark, faSun, faMoon, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { navLinks } from '@/data/portfolio';
 import styles from './Navbar.module.css';
 
-const navLinks = [
-    { name: 'Home', href: '#hero' },
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Education', href: '#education' },
-    { name: 'Contact', href: '#contact' },
-];
-
-export default function Navbar() {
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [activeSection, setActiveSection] = useState('hero');
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-
-            // Determine active section
-            const sections = navLinks.map(link => link.href.substring(1));
-            for (const section of sections.reverse()) {
-                const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.top <= 150) {
-                        setActiveSection(section);
-                        break;
-                    }
-                }
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    // Close mobile menu on resize to desktop
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth > 900) {
-                setIsMobileMenuOpen(false);
-            }
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // Prevent body scroll when mobile menu is open
-    useEffect(() => {
-        if (isMobileMenuOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [isMobileMenuOpen]);
-
-    const handleNavClick = (e, href) => {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-            setIsMobileMenuOpen(false);
-        }
+// The current theme lives on <html data-theme> (set before paint in layout.js),
+// so CSS picks which icon shows and no React state is needed
+function ThemeToggle() {
+    const toggle = () => {
+        const root = document.documentElement;
+        const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        try {
+            localStorage.setItem('theme', next);
+        } catch { }
     };
 
     return (
-        <>
-            <motion.nav
-                className={`${styles.navbar} ${isScrolled ? styles.scrolled : ''}`}
-                initial={{ y: -100 }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <div className={styles.container}>
-                    <a href="#hero" className={styles.logo} onClick={(e) => handleNavClick(e, '#hero')}>
-                        <span className={styles.logoText}>AS</span>
-                        <span className={styles.logoDot}></span>
+        <button className={styles.iconBtn} onClick={toggle} aria-label="Toggle dark mode">
+            <FontAwesomeIcon icon={faMoon} className={styles.moon} />
+            <FontAwesomeIcon icon={faSun} className={styles.sun} />
+        </button>
+    );
+}
+
+export default function Navbar() {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [active, setActive] = useState('');
+
+    useEffect(() => {
+        const onScroll = () => setIsScrolled(window.scrollY > 24);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    // Highlight the link of whichever section sits in the middle band of the viewport
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) setActive(entry.target.id);
+                });
+            },
+            { rootMargin: '-45% 0px -50% 0px' }
+        );
+        ['hero', ...navLinks.map((l) => l.id)].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+        });
+        return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        if (!isOpen) return;
+        const onKey = (e) => e.key === 'Escape' && setIsOpen(false);
+        const onResize = () => window.innerWidth > 960 && setIsOpen(false);
+        window.addEventListener('keydown', onKey);
+        window.addEventListener('resize', onResize);
+        return () => {
+            window.removeEventListener('keydown', onKey);
+            window.removeEventListener('resize', onResize);
+        };
+    }, [isOpen]);
+
+    return (
+        <header className={`${styles.header} ${isScrolled || isOpen ? styles.scrolled : ''}`}>
+            <nav className={styles.nav} aria-label="Main">
+                <a href="#hero" className={styles.logo} onClick={() => setIsOpen(false)}>
+                    <span className={styles.logoMark}>AS</span>
+                    <span className={styles.logoName}>Akshitha</span>
+                </a>
+
+                <ul className={styles.links}>
+                    {navLinks.map((link) => (
+                        <li key={link.id}>
+                            <a
+                                href={`#${link.id}`}
+                                className={`${styles.link} ${active === link.id ? styles.active : ''}`}
+                                aria-current={active === link.id ? 'true' : undefined}
+                            >
+                                {link.name}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+
+                <div className={styles.actions}>
+                    <ThemeToggle />
+                    <a href="#contact" className={`btn btn-primary ${styles.cta}`}>
+                        Let&apos;s talk
                     </a>
-
-                    {/* Desktop Navigation */}
-                    <ul className={styles.navMenu}>
-                        {navLinks.map((link) => (
-                            <li key={link.name}>
-                                <a
-                                    href={link.href}
-                                    className={`${styles.navLink} ${activeSection === link.href.substring(1) ? styles.active : ''}`}
-                                    onClick={(e) => handleNavClick(e, link.href)}
-                                >
-                                    {link.name}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-
-                    {/* Mobile Toggle Button */}
                     <button
-                        className={styles.mobileToggle}
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        aria-label="Toggle mobile menu"
-                        aria-expanded={isMobileMenuOpen}
+                        className={`${styles.iconBtn} ${styles.menuBtn}`}
+                        onClick={() => setIsOpen((o) => !o)}
+                        aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                        aria-expanded={isOpen}
+                        aria-controls="mobile-menu"
                     >
-                        <FontAwesomeIcon icon={isMobileMenuOpen ? faTimes : faBars} />
+                        <FontAwesomeIcon icon={isOpen ? faXmark : faBars} />
                     </button>
                 </div>
-            </motion.nav>
+            </nav>
 
-            {/* Mobile Menu - Outside navbar for proper positioning */}
             <AnimatePresence>
-                {isMobileMenuOpen && (
+                {isOpen && (
                     <>
-                        {/* Overlay */}
                         <motion.div
-                            className={styles.mobileOverlay}
+                            className={styles.backdrop}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            onClick={() => setIsOpen(false)}
                         />
-
-                        {/* Mobile Menu */}
                         <motion.div
+                            id="mobile-menu"
                             className={styles.mobileMenu}
-                            initial={{ opacity: 0, x: '100%' }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: '100%' }}
-                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                         >
-                            {/* Close button inside mobile menu */}
-                            <button
-                                className={styles.mobileCloseBtn}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                aria-label="Close menu"
-                            >
-                                <FontAwesomeIcon icon={faTimes} />
-                            </button>
-
                             <ul>
-                                {navLinks.map((link, index) => (
-                                    <motion.li
-                                        key={link.name}
-                                        initial={{ opacity: 0, x: 30 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: index * 0.05 + 0.1 }}
-                                    >
+                                {navLinks.map((link) => (
+                                    <li key={link.id}>
                                         <a
-                                            href={link.href}
-                                            className={activeSection === link.href.substring(1) ? styles.active : ''}
-                                            onClick={(e) => handleNavClick(e, link.href)}
+                                            href={`#${link.id}`}
+                                            className={active === link.id ? styles.active : ''}
+                                            onClick={() => setIsOpen(false)}
                                         >
                                             {link.name}
+                                            <FontAwesomeIcon icon={faArrowRight} />
                                         </a>
-                                    </motion.li>
+                                    </li>
                                 ))}
                             </ul>
+                            <a href="#contact" className="btn btn-primary" onClick={() => setIsOpen(false)}>
+                                Let&apos;s talk
+                            </a>
                         </motion.div>
                     </>
                 )}
             </AnimatePresence>
-        </>
+        </header>
     );
 }
